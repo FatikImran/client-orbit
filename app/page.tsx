@@ -4,7 +4,7 @@ export default function HomePage() {
   return (
     <main className="page">
       <section className="hero">
-        <p style={{ marginTop: 0, fontWeight: 700, color: "var(--accent)" }}>Portfolio Build: UpTicket AI Support Assistant</p>
+        <p style={{ marginTop: 0, fontWeight: 700, color: "var(--accent)" }}>Portfolio Build: Client Orbit Support AI</p>
         <h1>Support replies in seconds. Lead capture by default.</h1>
         <p>
           This zero-budget, production-style assistant handles FAQs, captures buyer intent, and escalates high-risk queries to humans.

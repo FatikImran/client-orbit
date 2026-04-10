@@ -8,7 +8,7 @@ const space = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "UpTicket AI Support Assistant",
+  title: "Client Orbit Support AI",
   description: "Portfolio-grade AI support assistant with lead capture, guardrails, and zero-budget deployment plan."
 };
 

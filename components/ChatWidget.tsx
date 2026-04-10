@@ -22,7 +22,7 @@ type ChatResponse = {
 const initialMessages: ChatMessage[] = [
   {
     role: "assistant",
-    content: "Welcome to UpTicket support. Ask me about pricing, shipping, refunds, or service details."
+    content: "Welcome to Client Orbit support. Ask me about pricing, shipping, refunds, or service details."
   }
 ];
 
@@ -37,7 +37,7 @@ export default function ChatWidget() {
     if (typeof window === "undefined") {
       return "server-session";
     }
-    const key = "upticket_session_id";
+    const key = "client_orbit_session_id";
     const existing = window.localStorage.getItem(key);
     if (existing) {
       return existing;

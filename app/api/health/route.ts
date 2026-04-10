@@ -4,7 +4,7 @@ export async function GET() {
   return NextResponse.json(
     {
       status: "ok",
-      service: "UpTicket AI Support Assistant",
+      service: "Client Orbit Support AI",
       timestamp: new Date().toISOString()
     },
     { status: 200 }
