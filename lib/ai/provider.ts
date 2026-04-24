@@ -80,24 +80,25 @@ export async function generateSupportReply(userMessage: string): Promise<ChatRes
 
     const reply = response.text?.trim() || "I may be missing a policy detail. I can escalate this to a human support specialist.";
 
-    const extractionResponse = await ai.models.generateContent({
-      model: "gemini-2.0-flash",
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: `${LEAD_EXTRACTION_PROMPT}\n\nMessage: ${userMessage}` }]
-        }
-      ]
-    });
-
-    let lead: LeadCapture = {};
-    const extractionText = extractionResponse.text?.trim() || "{}";
-
+    let lead: LeadCapture = heuristicLeadExtraction(userMessage);
     try {
+      const extractionResponse = await ai.models.generateContent({
+        model: "gemini-2.0-flash",
+        contents: [
+          {
+            role: "user",
+            parts: [{ text: `${LEAD_EXTRACTION_PROMPT}\n\nMessage: ${userMessage}` }]
+          }
+        ]
+      });
+
+      const extractionText = extractionResponse.text?.trim() || "{}";
       const parsed = JSON.parse(extractionText.replace(/```json|```/g, ""));
       lead = normalizeLead(parsed as LeadCapture);
-    } catch {
-      lead = heuristicLeadExtraction(userMessage);
+    } catch (extractionError) {
+      logWarn("gemini_lead_extraction_failed", {
+        message: extractionError instanceof Error ? extractionError.message : "unknown"
+      });
     }
 
     return {
