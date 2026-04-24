@@ -35,7 +35,7 @@ export async function saveConversation(input: Omit<ConversationRecord, "id" | "c
 
   if (supabase) {
     const client = supabase as any;
-    await client.from("conversations").insert({
+    const { error } = await client.from("conversations").insert({
       id: record.id,
       session_id: record.sessionId,
       user_message: record.userMessage,
@@ -44,6 +44,9 @@ export async function saveConversation(input: Omit<ConversationRecord, "id" | "c
       source: record.source,
       created_at: record.createdAt
     });
+    if (error) {
+      throw new Error(`Failed to save conversation: ${error.message}`);
+    }
     return record;
   }
 
@@ -64,7 +67,7 @@ export async function saveLead(input: Omit<LeadRecord, "id" | "createdAt">) {
 
   if (supabase) {
     const client = supabase as any;
-    await client.from("leads").insert({
+    const { error } = await client.from("leads").insert({
       id: record.id,
       session_id: record.sessionId,
       name: record.name,
@@ -73,6 +76,9 @@ export async function saveLead(input: Omit<LeadRecord, "id" | "createdAt">) {
       urgency: record.urgency,
       created_at: record.createdAt
     });
+    if (error) {
+      throw new Error(`Failed to save lead: ${error.message}`);
+    }
     return record;
   }
 
@@ -94,7 +100,11 @@ export async function getRecentLeads(limit = 25) {
       .order("created_at", { ascending: false })
       .limit(limit);
 
-    return (data ?? []).map((item: any) => ({
+    if (!data) {
+      return [];
+    }
+
+    return data.map((item: any) => ({
       id: item.id,
       sessionId: item.session_id,
       name: item.name,

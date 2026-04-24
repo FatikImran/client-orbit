@@ -38,21 +38,28 @@ export async function POST(request: NextRequest) {
 
     const result = await generateSupportReply(parsed.data.message);
 
-    await saveConversation({
-      sessionId: parsed.data.sessionId,
-      userMessage: parsed.data.message,
-      assistantReply: result.reply,
-      escalationNeeded: result.escalationNeeded,
-      source: result.source
-    });
-
-    if (result.lead.email || result.lead.name || result.lead.need || result.lead.urgency) {
-      await saveLead({
+    try {
+      await saveConversation({
         sessionId: parsed.data.sessionId,
-        name: result.lead.name,
-        email: result.lead.email,
-        need: result.lead.need,
-        urgency: result.lead.urgency
+        userMessage: parsed.data.message,
+        assistantReply: result.reply,
+        escalationNeeded: result.escalationNeeded,
+        source: result.source
+      });
+
+      if (result.lead.email || result.lead.name || result.lead.need || result.lead.urgency) {
+        await saveLead({
+          sessionId: parsed.data.sessionId,
+          name: result.lead.name,
+          email: result.lead.email,
+          need: result.lead.need,
+          urgency: result.lead.urgency
+        });
+      }
+    } catch (storageError) {
+      logError("chat_storage_failed", {
+        requestId,
+        message: storageError instanceof Error ? storageError.message : "unknown"
       });
     }
 
