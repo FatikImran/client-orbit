@@ -6,6 +6,19 @@ import { enforceRateLimit } from "@/lib/rateLimit/upstash";
 import { logError, logInfo } from "@/lib/utils/logger";
 import { chatRequestSchema } from "@/lib/utils/validation";
 
+export async function GET() {
+  return NextResponse.json(
+    {
+      message: "Use POST /api/chat with JSON body: { sessionId, message }",
+      example: {
+        sessionId: "sess-demo-123",
+        message: "What is your shipping timeline?"
+      }
+    },
+    { status: 200 }
+  );
+}
+
 export async function POST(request: NextRequest) {
   const requestId = randomUUID();
 

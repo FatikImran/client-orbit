@@ -49,6 +49,7 @@ function fallbackReply(message: string) {
 
 export async function generateSupportReply(userMessage: string): Promise<ChatResult> {
   const apiKey = process.env.GEMINI_API_KEY;
+  const model = process.env.GEMINI_MODEL || "gemini-1.5-flash";
 
   if (!apiKey) {
     const lead = heuristicLeadExtraction(userMessage);
@@ -65,7 +66,7 @@ export async function generateSupportReply(userMessage: string): Promise<ChatRes
     const ai = new GoogleGenAI({ apiKey });
 
     const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash",
+      model,
       contents: [
         {
           role: "user",
@@ -83,7 +84,7 @@ export async function generateSupportReply(userMessage: string): Promise<ChatRes
     let lead: LeadCapture = heuristicLeadExtraction(userMessage);
     try {
       const extractionResponse = await ai.models.generateContent({
-        model: "gemini-2.0-flash",
+        model,
         contents: [
           {
             role: "user",
