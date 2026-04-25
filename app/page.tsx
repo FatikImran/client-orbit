@@ -4,7 +4,7 @@ export default function HomePage() {
   return (
     <main className="page">
       <section className="hero">
-        <p style={{ marginTop: 0, fontWeight: 700, color: "var(--accent)" }}>Portfolio Build: Client Orbit Support AI</p>
+        <p className="eyebrow">Portfolio Build: Client Orbit Support AI</p>
         <h1>Support replies in seconds. Lead capture by default.</h1>
         <p>
           This zero-budget, production-style assistant handles FAQs, captures buyer intent, and escalates high-risk queries to humans.
@@ -21,9 +21,9 @@ export default function HomePage() {
       <section className="grid" aria-label="assistant grid">
         <ChatWidget />
 
-        <div style={{ display: "grid", gap: "1rem" }}>
+        <div className="stack">
           <article className="card">
-            <h3 style={{ marginTop: 0 }}>How It Works</h3>
+            <h3 style={{ marginTop: 0, marginBottom: "0.75rem" }}>How It Works</h3>
             <ol style={{ margin: 0, paddingLeft: "1.1rem", lineHeight: 1.55 }}>
               <li>User sends support question.</li>
               <li>API validates payload and checks rate limits.</li>
@@ -34,7 +34,7 @@ export default function HomePage() {
           </article>
 
           <article className="card">
-            <h3 style={{ marginTop: 0 }}>Demo KPI Targets</h3>
+            <h3 style={{ marginTop: 0, marginBottom: "0.75rem" }}>Demo KPI Targets</h3>
             <div className="kpi">
               <div>
                 <strong>&lt;4s</strong>
@@ -56,8 +56,8 @@ export default function HomePage() {
           </article>
 
           <article className="card">
-            <h3 style={{ marginTop: 0 }}>Client Value</h3>
-            <p style={{ marginBottom: 0, color: "var(--muted)" }}>
+            <h3 style={{ marginTop: 0, marginBottom: "0.7rem" }}>Client Value</h3>
+            <p style={{ marginBottom: 0, color: "var(--muted)", lineHeight: 1.55 }}>
               Small businesses can reduce repetitive support workload and convert casual inquiries into qualified leads without hiring a full support team.
             </p>
           </article>

@@ -103,40 +103,33 @@ export default function ChatWidget() {
   }
 
   return (
-    <div className="card" style={{ display: "grid", gap: "0.9rem" }}>
-      <h3 style={{ margin: 0 }}>Live Demo Chat</h3>
+    <div className="card chat-shell">
+      <h3 className="chat-title">
+        <span>Live Demo Chat</span>
+        <span className="chat-status">Session: active</span>
+      </h3>
       <MessageList messages={messages} />
-      <form onSubmit={handleSend} style={{ display: "grid", gap: "0.5rem" }}>
+      <form onSubmit={handleSend} className="composer">
         <input
+          className="input"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type a support question..."
-          style={{
-            width: "100%",
-            borderRadius: 12,
-            border: "1px solid var(--line)",
-            padding: "0.7rem 0.8rem",
-            background: "#fff"
-          }}
         />
-        <button
-          type="submit"
-          disabled={loading}
-          style={{
-            borderRadius: 12,
-            border: "none",
-            background: "var(--accent)",
-            color: "#fff",
-            fontWeight: 700,
-            padding: "0.7rem 0.9rem",
-            cursor: loading ? "wait" : "pointer"
-          }}
-        >
-          {loading ? "Thinking..." : "Send"}
+        <button type="submit" disabled={loading} className="btn-primary">
+          {loading ? (
+            <span className="dots" aria-label="Thinking">
+              <span />
+              <span />
+              <span />
+            </span>
+          ) : (
+            "Send"
+          )}
         </button>
       </form>
 
-      <div style={{ display: "grid", gap: "0.45rem" }}>
+      <div className="stack" style={{ gap: "0.45rem" }}>
         <strong style={{ fontSize: "0.85rem" }}>Lead Capture Snapshot</strong>
         <div className="badges">
           <LeadBadge label="Name" value={lead.name} />
@@ -146,7 +139,7 @@ export default function ChatWidget() {
         </div>
       </div>
 
-      <small style={{ color: "var(--muted)" }}>
+      <small className="meta">
         Source: {meta.source ?? "n/a"} | Escalation: {meta.escalationNeeded ? "yes" : "no"} | Request ID: {meta.requestId ?? "n/a"}
       </small>
     </div>

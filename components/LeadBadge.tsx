@@ -5,7 +5,7 @@ type LeadBadgeProps = {
 
 export default function LeadBadge({ label, value }: LeadBadgeProps) {
   return (
-    <span className={`badge ${value ? "badge-accent" : ""}`}>
+    <span className={`badge ${value ? "badge-filled" : ""}`}>
       {label}: {value ?? "missing"}
     </span>
   );

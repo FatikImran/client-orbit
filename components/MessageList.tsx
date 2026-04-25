@@ -1,3 +1,5 @@
+import { CSSProperties } from "react";
+
 export type ChatMessage = {
   role: "user" | "assistant";
   content: string;
@@ -9,23 +11,15 @@ type MessageListProps = {
 
 export default function MessageList({ messages }: MessageListProps) {
   return (
-    <div style={{ display: "grid", gap: "0.6rem", maxHeight: 380, overflowY: "auto", paddingRight: "0.25rem" }}>
+    <div className="message-list">
       {messages.map((msg, idx) => (
         <div
           key={`${msg.role}-${idx}`}
-          style={{
-            justifySelf: msg.role === "user" ? "end" : "start",
-            maxWidth: "85%",
-            borderRadius: 14,
-            padding: "0.65rem 0.8rem",
-            border: "1px solid var(--line)",
-            background: msg.role === "user" ? "#eef6f2" : "#ffffff"
-          }}
+          className={`message-bubble ${msg.role === "user" ? "message-user" : "message-assistant"}`}
+          style={{ "--enter-delay": `${Math.min(idx * 40, 380)}ms` } as CSSProperties}
         >
-          <strong style={{ fontSize: "0.78rem", opacity: 0.7, display: "block", marginBottom: "0.2rem" }}>
-            {msg.role === "user" ? "You" : "Support AI"}
-          </strong>
-          <span style={{ whiteSpace: "pre-wrap", lineHeight: 1.45 }}>{msg.content}</span>
+          <strong className="message-role">{msg.role === "user" ? "You" : "Support AI"}</strong>
+          <span className="message-content">{msg.content}</span>
         </div>
       ))}
     </div>
