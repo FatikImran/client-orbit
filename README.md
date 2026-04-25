@@ -1,61 +1,80 @@
 # Client Orbit Support AI
 
-Production-style, zero-budget portfolio project for AI customer support automation.
+AI-powered production-style, zero-budget Support Assistant with automated replies and lead extraction.
 
-## What this project demonstrates
-- AI support assistant with safety guardrails and escalation logic
-- Lead capture from natural chat (name, email, need, urgency)
-- API input validation and rate limiting
-- Free-tier deployment strategy for freelance delivery
+## Live Demo
+- Public demo: https://client-orbit-kohl.vercel.app/
 
-## Stack
+## Overview
+This application provides:
+- Policy-aware support responses with escalation behavior.
+- Lead capture from user conversations (name, email, need, urgency).
+- API validation and request rate limiting.
+- Persistent storage for conversations and leads.
+
+## Tech Stack
 - Next.js (App Router, TypeScript)
-- Gemini Flash (with fallback mode if no key)
-- Supabase (optional, local JSON fallback included)
-- Upstash Redis (optional, in-memory fallback included)
+- Google Gemini API
+- Supabase (Postgres)
+- Upstash Redis (rate limiting)
 
-## Quick start
-1. Install dependencies
+## Project Structure
+- app/api/chat/route.ts: Chat endpoint and request orchestration
+- app/api/health/route.ts: Health check endpoint
+- app/api/leads/route.ts: Lead listing and manual lead insert endpoint
+- lib/ai/provider.ts: Gemini integration and fallback logic
+- lib/ai/prompts.ts: System and extraction prompts
+- lib/db/queries.ts: Persistence layer for leads and conversations
+- lib/rateLimit/upstash.ts: Rate limiter implementation
+- lib/utils/validation.ts: Input validation schemas
+
+## Getting Started
+1. Install dependencies:
    npm install
-2. Copy env file
+2. Configure environment variables:
    copy .env.example .env.local
-3. Run app
+3. Start the development server:
    npm run dev
-4. Test structure
+4. Run checks:
+   npm run lint
    npm run test
 
-Open http://localhost:3000
+## Environment Variables
+Use these variables in local and deployment environments:
+- GEMINI_API_KEY
+- GEMINI_MODEL
+- SUPABASE_URL
+- SUPABASE_SECRET_API_KEY (preferred) or SUPABASE_SERVICE_ROLE_KEY (fallback)
+- UPSTASH_REDIS_REST_URL
+- UPSTASH_REDIS_REST_TOKEN
+- ADMIN_TOKEN
 
-## API routes
+## API Endpoints
 - GET /api/health
+- GET /api/chat (usage helper)
 - POST /api/chat
-- GET /api/leads (optionally protected by ADMIN_TOKEN)
+- GET /api/leads (requires x-admin-token)
 - POST /api/leads
 
-## Security notes
-- Keep all keys in .env.local and hosting platform secret settings.
-- Never expose service role keys to client-side code.
-- Rotate keys if leaked.
-
-## Free-tier behavior
-- If Gemini key is missing, app uses deterministic fallback support behavior.
-- If Supabase is missing, data is written to local JSON store for demo.
-- If Upstash is missing, in-memory rate limit fallback is used.
-
-## File map
-- app/api/chat/route.ts: chat orchestration and persistence
-- app/api/leads/route.ts: lead retrieval and manual insertion
-- app/api/health/route.ts: health endpoint
-- lib/ai/prompts.ts: system prompt and context
-- lib/ai/provider.ts: Gemini integration and fallback logic
-- lib/db/queries.ts: Supabase/local storage abstraction
-- lib/rateLimit/upstash.ts: Upstash/local limiter
-
-## Portfolio assets included
-- MASTER_SYSTEM_PROMPT.txt
-- PORTFOLIO_PROOF_PACK.txt
-- THIRD_PARTY_SETUP_GUIDE.txt
-- Plan of Attack.md
-
 ## Deployment
-See THIRD_PARTY_SETUP_GUIDE.txt for account creation and deployment steps.
+Deploy to Vercel and set all required environment variables in project settings.
+
+## Test Case Screenshots
+
+### 1. Design Overview
+![Design Overview](media/1%20design_overview.png)
+
+### 2. Simple Hi Test
+![Simple Hi Test](media/2%20simple_hi_test.png)
+
+### 3. Hardcoded Test
+![Hardcoded Test](media/3%20hardcoded_test.png)
+
+### 4. Confusing Realistic Prompt
+![Confusing Realistic Prompt](media/4%20confusing_realistic_prompt.png)
+
+### 5. Lead Extraction Test
+![Lead Extraction Test](media/5%20lead_extraction_test.png)
+
+### 6. Ambiguous Prompt
+![Ambiguous Prompt](media/6%20ambiguous_prompt.png)
